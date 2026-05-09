@@ -1,0 +1,39 @@
+{
+  "name": "kt-ax-demo",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "lan:url": "node scripts/print-lan-url.mjs",
+    "dev": "node scripts/dev-wifi.mjs",
+    "dev:lan-only": "SKIP_MOBILE_TUNNEL=1 node scripts/dev-wifi.mjs",
+    "dev:local": "next dev --hostname 127.0.0.1 --turbopack",
+    "dev:public": "npm run dev",
+    "dev:mobile": "npm run dev",
+    "dev:webpack": "WATCHPACK_POLLING=true next dev --hostname 127.0.0.1",
+    "build": "next build",
+    "clean": "rm -rf .next",
+    "start": "next start --hostname 127.0.0.1",
+    "start:wifi": "next start --hostname 0.0.0.0 --port 3000",
+    "start:public": "npm run start:wifi",
+    "start:3050": "next start --hostname 127.0.0.1 --port 3050",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "framer-motion": "^12.38.0",
+    "next": "^15.3.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "zustand": "^5.0.13"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.4",
+    "@types/node": "^22.14.1",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "eslint": "^9.25.0",
+    "eslint-config-next": "^15.3.1",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.1.4",
+    "typescript": "^5.8.3"
+  }
+}
