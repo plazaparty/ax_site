@@ -83,7 +83,7 @@ export default function AxExploreHubClient() {
               className="scroll-mt-28 rounded-xl border border-white/10 bg-white/[0.06] p-4 md:p-5"
             >
               <p className="text-[10px] font-semibold uppercase tracking-wider text-red-300/80">솔루션별 AX</p>
-              <p className="mt-1 text-[11px] leading-snug text-white/45">Readiness · AI · Cloud · Data</p>
+              <p className="mt-1 text-[11px] leading-snug text-white/45">준비도 · AI · 클라우드 · 데이터</p>
               <ul className="mt-4 space-y-1.5 border-t border-white/10 pt-3">
                 {solutionPillarHubLinks.map((p) => (
                   <li key={p.slug}>

@@ -12,25 +12,25 @@ export const solutionPillarHubLinks = [
   {
     slug: "ax-readiness",
     title: "AX Readiness",
-    subtitle: "Consulting & Experience",
+    subtitle: "컨설팅·혁신 허브",
     href: "/ax-explore/solution/ax-readiness",
   },
   {
     slug: "ai",
     title: "AI",
-    subtitle: "Intelligence & Development",
+    subtitle: "지능·개발·에이전트",
     href: "/ax-explore/solution/ai",
   },
   {
     slug: "cloud",
     title: "Cloud",
-    subtitle: "Platform & Security",
+    subtitle: "플랫폼·보안·인프라",
     href: "/ax-explore/solution/cloud",
   },
   {
     slug: "data",
     title: "Data",
-    subtitle: "Asset & Analytics",
+    subtitle: "자산·분석·지식",
     href: "/ax-explore/solution/data",
   },
 ] as const;

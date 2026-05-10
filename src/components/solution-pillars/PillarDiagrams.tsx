@@ -45,11 +45,11 @@ function MaturitySvg({ stroke }: { stroke: string }) {
         strokeLinecap="round"
       />
       {[
-        { x: 80, lab: "Ad-hoc" },
-        { x: 220, lab: "Pilot" },
-        { x: 380, lab: "Scaled" },
-        { x: 540, lab: "Optimized" },
-        { x: 660, lab: "AI-native" },
+        { x: 80, lab: "즉흥" },
+        { x: 220, lab: "파일럿" },
+        { x: 380, lab: "확장" },
+        { x: 540, lab: "최적화" },
+        { x: 660, lab: "AI-네이티브" },
       ].map((p) => (
         <g key={p.lab}>
           <circle cx={p.x} cy="142" r="6" fill={stroke} />
@@ -75,14 +75,14 @@ function MaturitySvg({ stroke }: { stroke: string }) {
         fontFamily="system-ui, sans-serif"
         fontWeight="600"
       >
-        Transformation maturity curve
+        전환 성숙도 곡선
       </text>
     </svg>
   );
 }
 
 function PipelineSvg({ stroke }: { stroke: string }) {
-  const layers = ["Ingress", "Policy", "Model", "Serve", "Observe"];
+  const layers = ["유입", "정책", "모델", "서빙", "관측"];
   return (
     <svg viewBox="0 0 720 200" className="h-auto w-full max-w-3xl" aria-hidden>
       {layers.map((lab, i) => {
@@ -131,7 +131,7 @@ function PipelineSvg({ stroke }: { stroke: string }) {
         fontFamily="system-ui, sans-serif"
         fontWeight="600"
       >
-        Inference & orchestration flow
+        추론·오케스트레이션 흐름
       </text>
     </svg>
   );
@@ -139,11 +139,11 @@ function PipelineSvg({ stroke }: { stroke: string }) {
 
 function AgentMeshSvg({ stroke }: { stroke: string }) {
   const nodes = [
-    { x: 120, y: 70, t: "Planner" },
-    { x: 360, y: 50, t: "Tools" },
-    { x: 600, y: 70, t: "Memory" },
-    { x: 240, y: 150, t: "Worker A" },
-    { x: 480, y: 150, t: "Worker B" },
+    { x: 120, y: 70, t: "기획" },
+    { x: 360, y: 50, t: "도구" },
+    { x: 600, y: 70, t: "메모리" },
+    { x: 240, y: 150, t: "워커 A" },
+    { x: 480, y: 150, t: "워커 B" },
   ];
   return (
     <svg viewBox="0 0 720 200" className="h-auto w-full max-w-3xl" aria-hidden>
@@ -174,7 +174,7 @@ function AgentMeshSvg({ stroke }: { stroke: string }) {
         fontFamily="system-ui, sans-serif"
         fontWeight="500"
       >
-        Multi-agent orchestration (governed handoffs)
+        다중 에이전트 오케스트레이션(통제된 인계)
       </text>
     </svg>
   );
@@ -182,10 +182,10 @@ function AgentMeshSvg({ stroke }: { stroke: string }) {
 
 function CloudStackSvg({ stroke }: { stroke: string }) {
   const rows = [
-    { y: 40, w: 520, label: "Workloads & AI services" },
-    { y: 88, w: 580, label: "Platform & data plane" },
-    { y: 136, w: 640, label: "Network & security fabric" },
-    { y: 184, w: 600, label: "Physical / edge footprint" },
+    { y: 40, w: 520, label: "워크로드·AI 서비스" },
+    { y: 88, w: 580, label: "플랫폼·데이터 플레인" },
+    { y: 136, w: 640, label: "네트워크·보안 패브릭" },
+    { y: 184, w: 600, label: "물리·엣지 자산" },
   ];
   return (
     <svg viewBox="0 0 720 220" className="h-auto w-full max-w-3xl" aria-hidden>
@@ -225,7 +225,7 @@ function CloudStackSvg({ stroke }: { stroke: string }) {
         fontFamily="system-ui, sans-serif"
         fontWeight="600"
       >
-        Enterprise cloud topology (simplified)
+        엔터프라이즈 클라우드 토폴로지(개념도)
       </text>
     </svg>
   );
@@ -242,7 +242,7 @@ function DataFlowSvg({ stroke }: { stroke: string }) {
       <line x1="80" y1="60" x2="200" y2="60" stroke={stroke} strokeWidth="2" markerEnd="url(#arr)" opacity="0.6" />
       <line x1="260" y1="60" x2="380" y2="60" stroke={stroke} strokeWidth="2" markerEnd="url(#arr)" opacity="0.6" />
       <line x1="440" y1="60" x2="560" y2="60" stroke={stroke} strokeWidth="2" markerEnd="url(#arr)" opacity="0.6" />
-      {["Sources", "Lakehouse", "Graph / vectors", "Agents"].map((t, i) => (
+      {["소스", "레이크하우스", "그래프·벡터", "에이전트"].map((t, i) => (
         <text
           key={t}
           x={80 + i * 160}

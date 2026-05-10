@@ -243,7 +243,7 @@ function BlockSection({
         {block.items && block.services ? (
           <div className="mt-12">
             <h3 className={`text-sm font-semibold uppercase tracking-wider ${isDark ? "text-white/80" : "text-slate-800"}`}>
-              Enterprise use cases
+              엔터프라이즈 활용 사례
             </h3>
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
               {block.items.map((it) => (
@@ -291,7 +291,7 @@ export default function EnterprisePillarPage({ content }: { content: EnterpriseP
   const [activeId, setActiveId] = useState("overview");
 
   const nav = useMemo(
-    () => [{ id: "overview", label: "Overview" }, ...content.blocks.map((b) => ({ id: b.id, label: b.navLabel }))],
+    () => [{ id: "overview", label: "개요" }, ...content.blocks.map((b) => ({ id: b.id, label: b.navLabel }))],
     [content.blocks],
   );
 
@@ -335,7 +335,7 @@ export default function EnterprisePillarPage({ content }: { content: EnterpriseP
         <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-4 pb-20 pt-24 md:px-6 md:pb-28 md:pt-28">
           <div className="flex flex-wrap items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-red-300/90">
             <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1">{content.hero.badge}</span>
-            <span className="text-white/35">KT Enterprise AX</span>
+            <span className="text-white/35">KT 엔터프라이즈 AX</span>
           </div>
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-end">
             <div>
@@ -350,33 +350,33 @@ export default function EnterprisePillarPage({ content }: { content: EnterpriseP
               <p className="mt-6 max-w-2xl text-base leading-relaxed text-white/70 md:text-lg">{content.hero.subhead}</p>
             </div>
             <div className="rounded-3xl border border-white/10 bg-white/[0.05] p-6 backdrop-blur-md md:p-8">
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-red-300/90">Executive positioning</p>
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-red-300/90">경영 메시지</p>
               <p className="mt-4 text-sm leading-relaxed text-white/80">{content.hero.executive}</p>
               <div className="mt-6 flex flex-wrap gap-2 text-[10px] font-medium uppercase tracking-wider text-white/45">
-                <span className="rounded-lg border border-white/10 px-2 py-1">Governed delivery</span>
-                <span className="rounded-lg border border-white/10 px-2 py-1">Portfolio discipline</span>
-                <span className="rounded-lg border border-white/10 px-2 py-1">KPI-linked outcomes</span>
+                <span className="rounded-lg border border-white/10 px-2 py-1">통제된 전달</span>
+                <span className="rounded-lg border border-white/10 px-2 py-1">포트폴리오 규율</span>
+                <span className="rounded-lg border border-white/10 px-2 py-1">KPI 연동 성과</span>
               </div>
             </div>
           </div>
 
           <div className="grid gap-4 rounded-3xl border border-white/10 bg-black/30 p-4 backdrop-blur md:grid-cols-3 md:p-5">
             <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-white/40">Capability overview</p>
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-white/40">역량 개요</p>
               <p className="mt-2 text-sm text-white/75">
-                Strategy-to-execution modules aligned to enterprise procurement, security review, and operating cadence.
+                조달·보안 검토·운영 케이던스에 맞춘 전략부터 실행까지의 모듈형 구성입니다.
               </p>
             </div>
             <div className="rounded-2xl border border-dashed border-white/15 bg-white/[0.02] p-4">
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-white/40">Architecture & process</p>
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-white/40">아키텍처·프로세스</p>
               <p className="mt-2 text-sm text-white/75">
-                Diagram-forward sections below translate operating models into reviewable visuals for steering committees.
+                아래 다이어그램 중심 섹션으로 운영 모델을 경영·스티어링 위원회가 검토하기 쉬운 시각로 번역합니다.
               </p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-white/40">Trust indicators</p>
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-white/40">신뢰 지표</p>
               <p className="mt-2 text-sm text-white/75">
-                Security-first patterns, enterprise SLAs, and audit-friendly evidence paths — designed for regulated industries.
+                보안 우선 패턴, 엔터프라이즈 SLA, 감사 친화적 증적 경로 — 규제 산업을 염두에 둔 설계입니다.
               </p>
             </div>
           </div>
@@ -385,7 +385,7 @@ export default function EnterprisePillarPage({ content }: { content: EnterpriseP
 
       <nav
         className="sticky top-14 z-40 border-b border-slate-200/80 bg-white/90 backdrop-blur-md"
-        aria-label="Section"
+        aria-label="섹션"
       >
         <div className="mx-auto flex max-w-6xl items-center gap-1 overflow-x-auto px-3 py-3 md:px-6">
           {nav.map((item) => {
@@ -406,7 +406,7 @@ export default function EnterprisePillarPage({ content }: { content: EnterpriseP
             href="/ax-explore#ax-explore-axis-solution"
             className="ml-auto hidden shrink-0 text-xs font-semibold text-red-700 hover:text-red-800 md:inline"
           >
-            ← AX Map
+            ← AX 맵
           </Link>
         </div>
       </nav>
@@ -433,9 +433,9 @@ export default function EnterprisePillarPage({ content }: { content: EnterpriseP
 
         <section className="border-b border-slate-200/80 bg-white">
           <div className="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-20">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-red-600">KPI / value proposition</p>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-red-600">KPI·가치 제안</p>
             <h2 className="mt-3 max-w-3xl text-2xl font-semibold tracking-tight text-slate-900 md:text-3xl">
-              Outcomes executives can defend in the room.
+              경영 회의에서 방어 가능한 성과 지표입니다.
             </h2>
             <div className="mt-10">
               <AnimatedKpiStrip kpis={content.kpis} reducedMotion={reducedMotion} />
@@ -446,10 +446,10 @@ export default function EnterprisePillarPage({ content }: { content: EnterpriseP
         <section className="border-t border-white/10 bg-slate-950 px-4 py-16 text-white md:px-6 md:py-20">
           <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-8 md:flex-row md:items-center">
             <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-red-300/90">Enterprise CTA</p>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-red-300/90">문의·다음 단계</p>
               <h2 className="mt-3 text-2xl font-semibold tracking-tight md:text-3xl">{content.cta.headline}</h2>
               <p className="mt-3 max-w-xl text-sm text-white/60">
-                KT Enterprise-grade AX Transformation Platform — practical execution, governed scale, measurable value.
+                KT 엔터프라이즈급 AX 전환 플랫폼 — 실전 실행, 통제된 확장, 측정 가능한 가치를 지향합니다.
               </p>
             </div>
             <Link

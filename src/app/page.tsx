@@ -30,16 +30,16 @@ export default function Home() {
             transition={{ delay: 0.05 }}
             className="mt-5 text-balance text-3xl font-semibold leading-snug tracking-tight md:text-[40px] md:leading-tight"
           >
-            읽는 홈페이지가 아니라
-            <br className="sm:hidden" /> 한눈에 보는 AX 전략 지도
+            고객의 니즈를 이해하고
+            <br className="sm:hidden" /> 고객의 상황에 맞는 최적의 솔루션을 제안합니다
           </motion.h1>
-          <motion.p
+            <motion.p
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.12 }}
             className="mx-auto mt-5 max-w-xl text-pretty text-base leading-relaxed text-white/75 md:text-lg"
           >
-            KT AX는 귀사의 상황을 구조화하고, 설명 가능한 조합과 실행 로드맵으로 연결합니다.
+            KT AX 컨설팅은 귀사의 과제와 제약을 먼저 정리한 뒤, 실행 가능한 조합과 로드맵으로 연결합니다.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, scale: 0.92 }}
@@ -128,9 +128,9 @@ export default function Home() {
             <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
               <p className="text-xs font-semibold uppercase tracking-wider text-red-600">Use Case</p>
               <h3 className="mt-2 text-xl font-semibold tracking-tight">실제 적용 사례</h3>
-              <ul className="mt-6 space-y-4">
+              <ul className="mt-6 grid max-h-[min(70vh,52rem)] gap-3 overflow-y-auto pr-1 sm:grid-cols-2 sm:max-h-none sm:overflow-visible xl:grid-cols-3">
                 {featuredUseCases.map((u) => (
-                  <li key={u.title}>
+                  <li key={u.href}>
                     <Link
                       href={u.href}
                       className="group flex items-center justify-between gap-4 rounded-2xl border border-gray-100 bg-gray-50 px-4 py-4 transition-colors hover:border-gray-300 hover:bg-white"

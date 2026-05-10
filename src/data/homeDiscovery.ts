@@ -48,23 +48,7 @@ export const scenarioCards = [
   },
 ];
 
-export const featuredUseCases = [
-  {
-    title: "제조 품질검사 혁신",
-    metric: "불량 탐지 리드타임 −35%",
-    href: "/use-case/success/manufacturing-quality",
-  },
-  {
-    title: "공공 민원 AI",
-    metric: "1차 응답 만족도 +22pt",
-    href: "/use-case/success/public-civic",
-  },
-  {
-    title: "금융 상담 자동화",
-    metric: "상담 준비 시간 −40%",
-    href: "/use-case/success/finance-advisory",
-  },
-];
+export { featuredUseCases } from "./useCaseFeatured";
 
 export const insightHighlights = [
   {

@@ -5,7 +5,7 @@ import BeforeAfterProcess from "@/components/ax-viz/BeforeAfterProcess";
 import KpiStoryBars from "@/components/ax-viz/KpiStoryBars";
 import SolutionArchitectureMini from "@/components/ax-viz/SolutionArchitectureMini";
 import UseCaseCausalFlow from "@/components/ax-viz/UseCaseCausalFlow";
-import { type SuccessStory } from "@/data/useCaseStories";
+import { type SuccessStory } from "@/data/useCaseStoryModel";
 
 export default function UseCaseDetailView({ slug, story }: { slug: string; story: SuccessStory }) {
   const before = story.legacyProcess ?? ["수기·분산 시스템", "표준 부족", "사후 대응"];

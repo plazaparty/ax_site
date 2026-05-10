@@ -1,26 +1,7 @@
-export interface SuccessStory {
-  title: string;
-  customerProblem: string;
-  solution: string;
-  process: string[];
-  outcome: string;
-  metrics: { label: string; value: string }[];
-  quote: string;
-  expansion: string;
-  /** 스토리형 상세 · 시각화 */
-  legacyProcess?: string[];
-  modernProcess?: string[];
-  axApplicationPoints?: string[];
-  operationModel?: string;
-  architectureFlow?: [string, string, string];
-  similarIndustries?: string[];
-  industryTags?: string[];
-  taskTags?: string[];
-  solutionTags?: string[];
-  difficulty?: "낮음" | "중간" | "높음";
-  implementationPeriod?: string;
-  kpiTags?: string[];
-}
+import { moreSuccessStories } from "./useCaseStoriesMore";
+import type { SuccessStory } from "./useCaseStoryModel";
+
+export type { SuccessStory } from "./useCaseStoryModel";
 
 export const successStories: Record<string, SuccessStory> = {
   "manufacturing-quality": {
@@ -119,4 +100,5 @@ export const successStories: Record<string, SuccessStory> = {
     implementationPeriod: "8–16주",
     kpiTags: ["준비 시간", "검색 실패"],
   },
+  ...moreSuccessStories,
 };
