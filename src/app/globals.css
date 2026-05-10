@@ -7,12 +7,24 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100dvh;
+}
+
+a,
+button {
+  touch-action: manipulation;
+}
+
+/* 모바일 터치 하이라이트 — 레이아웃과 어긋난 탭 영역 왜곡 완화 */
+* {
+  -webkit-tap-highlight-color: transparent;
 }
 
 @keyframes fade-up {

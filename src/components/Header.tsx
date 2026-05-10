@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { primaryNav } from "@/data/siteNav";
+import KtLogo from "@/components/branding/KtLogo";
 
 export default function Header() {
   const pathname = usePathname();
@@ -131,15 +132,14 @@ export default function Header() {
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 overflow-visible px-4 py-3 md:px-6">
         <Link
           href="/"
-          className="flex min-w-0 items-center gap-2.5"
+          className="flex min-w-0 items-center gap-3"
           onClick={() => setSheet(false)}
+          aria-label="홈 — AX Platform Company"
         >
-          <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-red-500 to-red-600 text-sm font-bold text-white shadow-sm">
-            AX
-          </span>
+          <KtLogo className="h-7 w-[4.75rem] shrink-0 sm:h-8 sm:w-[5.25rem]" />
           <div className="min-w-0 leading-tight">
             <div className="truncate text-sm font-semibold tracking-tight text-gray-900">
-              KT AX Discovery
+              AX Platform Company
             </div>
             <div className="truncate text-[11px] font-medium text-gray-500">
               AI Strategy Consultant

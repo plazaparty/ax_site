@@ -1,5 +1,7 @@
+import Link from "next/link";
 import InsightsPageHero from "@/components/InsightsPageHero";
 import InsightChannelCard from "@/components/InsightChannelCard";
+import { insightHighlights } from "@/data/homeDiscovery";
 import { insightPanelTone } from "@/data/insightVisual";
 import type { InsightVisualSlug } from "@/components/icons/InsightMonoIcon";
 
@@ -73,6 +75,27 @@ export default function InsightsHubPage() {
             />
           ))}
         </div>
+
+        <section className="mt-16 rounded-2xl border border-gray-200 bg-white/90 p-6 shadow-sm md:p-8">
+          <h2 className="text-lg font-semibold text-gray-900">예시 브리프</h2>
+          <p className="mt-2 text-sm text-gray-600">
+            짧은 형태의 전략·기술 브리프입니다. 카드를 누르면 예시 상세 페이지로 이동합니다.
+          </p>
+          <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {insightHighlights.map((it) => (
+              <li key={it.href}>
+                <Link
+                  href={it.href}
+                  className="flex h-full flex-col rounded-2xl border border-gray-100 bg-gray-50 px-4 py-4 transition-colors hover:border-red-200 hover:bg-white"
+                >
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-red-700">{it.tag}</span>
+                  <span className="mt-2 text-sm font-semibold leading-snug text-gray-900">{it.title}</span>
+                  <span className="mt-3 text-xs font-semibold text-gray-500">읽기 →</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
       </div>
     </div>
   );

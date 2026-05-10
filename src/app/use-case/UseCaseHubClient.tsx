@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import SitePageHero from "@/components/SitePageHero";
-import { curatedUseCases } from "@/data/useCaseCurated";
+import { curatedUseCases, USE_CASE_INDUSTRY_BUCKETS } from "@/data/useCaseCurated";
 import { stagesExplore } from "@/data/discoveryHub";
 import { portalPanelTone } from "@/data/portalVisual";
 
@@ -25,10 +25,7 @@ export default function UseCaseHubClient() {
   const [selected, setSelected] = useState<string | null>(null);
   const [query, setQuery] = useState("");
 
-  const industryOptions = useMemo(
-    () => [...new Set(ordered.flatMap((i) => i.industries))].sort(),
-    []
-  );
+  const industryOptions = useMemo(() => [...USE_CASE_INDUSTRY_BUCKETS], []);
   const taskOptions = useMemo(() => [...new Set(ordered.flatMap((i) => i.tasks))].sort(), []);
   const solutionOptions = useMemo(
     () => [...new Set(ordered.flatMap((i) => i.solutions))].sort(),
@@ -44,6 +41,7 @@ export default function UseCaseHubClient() {
           item.dek,
           item.subtitle,
           item.tag,
+          item.industryGroup,
           item.period,
           ...item.industries,
           ...item.tasks,
@@ -57,7 +55,7 @@ export default function UseCaseHubClient() {
       if (!selected) return true;
       switch (filterDim) {
         case "industry":
-          return item.industries.includes(selected);
+          return item.industryGroup === selected;
         case "task":
           return item.tasks.includes(selected);
         case "stage":
@@ -184,6 +182,9 @@ export default function UseCaseHubClient() {
                       {item.tag}
                     </span>
                     <span className="text-xs font-medium text-gray-400">{item.subtitle}</span>
+                    <span className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-0.5 text-[10px] font-semibold text-slate-700">
+                      산업 {item.industryGroup}
+                    </span>
                     <span className="rounded bg-gray-100 px-2 py-0.5 text-[10px] font-semibold text-gray-600">
                       {item.period}
                     </span>

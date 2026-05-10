@@ -1,9 +1,51 @@
 /** 홈·Use Case 허브에서 순차 큐레이션용 */
 
 import { successStories } from "./useCaseStories";
-import { USE_CASE_SUCCESS_SLUG_ORDER } from "./useCaseLibraryOrder";
+import { USE_CASE_SUCCESS_SLUG_ORDER, type UseCaseSuccessSlug } from "./useCaseLibraryOrder";
 
 export type UseCaseJourneyStageSlug = "start" | "expand" | "enterprise" | "agent";
+
+/** 산업 필터 — 10개 이내 대표 축 */
+export const USE_CASE_INDUSTRY_BUCKETS = [
+  "금융",
+  "공공",
+  "제조",
+  "유통·물류",
+  "통신·미디어",
+  "의료·제약",
+  "에너지",
+  "건설·부동산",
+  "서비스·교육",
+  "기타",
+] as const;
+
+export type UseCaseIndustryBucket = (typeof USE_CASE_INDUSTRY_BUCKETS)[number];
+
+const SLUG_INDUSTRY_GROUP: Record<UseCaseSuccessSlug, UseCaseIndustryBucket> = {
+  "manufacturing-quality": "제조",
+  "public-civic": "공공",
+  "finance-advisory": "금융",
+  "logistics-route-optimization": "유통·물류",
+  "retail-demand-forecasting": "유통·물류",
+  "health-medical-records-summary": "의료·제약",
+  "telecom-network-triage": "통신·미디어",
+  "insurance-fnol-triage": "금융",
+  "utility-field-inspection-vision": "에너지",
+  "education-admissions-assistant": "서비스·교육",
+  "legal-contract-screening": "서비스·교육",
+  "hr-policy-assistant": "서비스·교육",
+  "ecommerce-search-and-reco": "유통·물류",
+  "media-subtitle-and-metadata": "통신·미디어",
+  "construction-safety-vision": "건설·부동산",
+  "agritech-pest-detection": "제조",
+  "pharma-deviation-classification": "의료·제약",
+  "airline-disruption-comms": "서비스·교육",
+  "real-estate-lease-abstraction": "건설·부동산",
+  "automotive-supplier-quality": "제조",
+  "broadcast-sales-proposal": "통신·미디어",
+  "hospitality-guest-requests": "서비스·교육",
+  "bank-suspicious-txn-summary": "금융",
+};
 
 export interface CuratedUseCase {
   id: string;
@@ -14,6 +56,8 @@ export interface CuratedUseCase {
   href: string;
   /** 짧은 리드 (카드 뉴스 톤) */
   dek: string;
+  /** 필터용 대표 산업 (10개 버킷 중 하나) */
+  industryGroup: UseCaseIndustryBucket;
   industries: string[];
   tasks: string[];
   solutions: string[];
@@ -28,7 +72,21 @@ export interface CuratedUseCase {
 const CURATION: Partial<
   Record<
     string,
-    Pick<CuratedUseCase, "id" | "subtitle" | "tag" | "dek" | "industries" | "tasks" | "solutions" | "stageSlug" | "kpis" | "difficulty" | "period">
+    Pick<
+      CuratedUseCase,
+      | "id"
+      | "subtitle"
+      | "tag"
+      | "dek"
+      | "industries"
+      | "tasks"
+      | "solutions"
+      | "stageSlug"
+      | "kpis"
+      | "difficulty"
+      | "period"
+      | "industryGroup"
+    >
   >
 > = {
   "manufacturing-quality": {
@@ -43,6 +101,7 @@ const CURATION: Partial<
     kpis: ["리드타임", "재작업"],
     difficulty: "중간",
     period: "8–14주",
+    industryGroup: "제조",
   },
   "public-civic": {
     id: "public",
@@ -56,6 +115,7 @@ const CURATION: Partial<
     kpis: ["만족도", "준비 시간"],
     difficulty: "높음",
     period: "10–18주",
+    industryGroup: "공공",
   },
   "finance-advisory": {
     id: "finance",
@@ -69,6 +129,7 @@ const CURATION: Partial<
     kpis: ["준비 시간", "검색 실패"],
     difficulty: "높음",
     period: "8–16주",
+    industryGroup: "금융",
   },
   "logistics-route-optimization": {
     id: "logi",
@@ -82,6 +143,7 @@ const CURATION: Partial<
     kpis: ["재배차", "안내 리드타임"],
     difficulty: "중간",
     period: "8–14주",
+    industryGroup: "유통·물류",
   },
   "education-admissions-assistant": {
     id: "edu",
@@ -95,6 +157,7 @@ const CURATION: Partial<
     kpis: ["1차 해결", "FAQ 갱신"],
     difficulty: "중간",
     period: "8–12주",
+    industryGroup: "서비스·교육",
   },
   "legal-contract-screening": {
     id: "legal",
@@ -108,6 +171,7 @@ const CURATION: Partial<
     kpis: ["검토 시간", "예외 적발"],
     difficulty: "높음",
     period: "8–16주",
+    industryGroup: "서비스·교육",
   },
 };
 
@@ -117,14 +181,18 @@ function buildCurated(slug: (typeof USE_CASE_SUCCESS_SLUG_ORDER)[number], order:
   const industries = c?.industries ?? (st.similarIndustries?.length ? [...st.similarIndustries].slice(0, 2) : ["엔터프라이즈"]);
   const tasks = c?.tasks ?? ["운영개선"];
   const solutions = c?.solutions ?? ["KT AX"];
+  const tag = c?.tag ?? industries[0] ?? "사례";
+  const industryGroup = c?.industryGroup ?? SLUG_INDUSTRY_GROUP[slug] ?? "기타";
+
   return {
     id: c?.id ?? slug,
     order,
     title: st.title,
     subtitle: c?.subtitle ?? "AX 실행",
-    tag: c?.tag ?? industries[0] ?? "사례",
+    tag,
     href: `/use-case/success/${slug}`,
     dek: c?.dek ?? st.outcome,
+    industryGroup,
     industries,
     tasks,
     solutions,

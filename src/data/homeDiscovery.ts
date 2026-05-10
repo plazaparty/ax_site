@@ -1,3 +1,5 @@
+import { insightExamples } from "./insightExamples";
+
 export const axExploreHubTiles = [
   {
     title: "산업별 AX",
@@ -50,25 +52,27 @@ export const scenarioCards = [
 
 export { featuredUseCases } from "./useCaseFeatured";
 
-export const insightHighlights = [
-  {
-    title: "산업별 Enterprise GenAI 성숙도",
-    tag: "산업 트렌드",
-    href: "/insights-hub/trends",
-  },
-  {
-    title: "RAG와 Agent, 무엇부터 도입할까",
-    tag: "기술 인사이트",
-    href: "/insights-hub/tech",
-  },
-  {
-    title: "KT AX 플랫폼 업데이트",
-    tag: "뉴스",
-    href: "/insights-hub/news",
-  },
-  {
-    title: "AX Discovery 라이브 세션",
-    tag: "이벤트",
-    href: "/insights-hub/events",
-  },
-];
+/** 홈 우측 인사이트 카드 — 예시 기사 페이지로 연결 */
+export const insightHighlightSlugs = [
+  "genai-maturity-2026",
+  "rag-vs-agent-roadmap",
+  "ax-platform-release-notes",
+  "discovery-live-session",
+  "agent-governance-checklist",
+  "data-lineage-for-ai",
+  "contact-center-quality-ops",
+  "poc-exit-criteria",
+  "security-llm-deployment",
+  "value-framework-kpi",
+  "multimodal-use-cases",
+  "hybrid-cloud-for-ax",
+] as const;
+
+export const insightHighlights = insightHighlightSlugs.map((slug) => {
+  const x = insightExamples[slug];
+  return {
+    title: x.title,
+    tag: x.tag,
+    href: `/insights/example/${slug}`,
+  };
+});

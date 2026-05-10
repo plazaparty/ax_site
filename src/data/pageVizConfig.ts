@@ -9,7 +9,7 @@ export type PageVizConfig = {
 
 /** 전역 하단 도식 — 허브·세부 슬러그·결과 대시보드 등은 페이지 내부에서 처리 */
 export function isExcludedFromGlobalPageViz(pathname: string): boolean {
-  if (pathname === "/" || pathname.startsWith("/insights-hub")) return true;
+  if (pathname === "/" || pathname.startsWith("/insights-hub") || pathname.startsWith("/insights/example")) return true;
   if (pathname === "/ax-explore" || pathname === "/use-case") return true;
   if (pathname === "/ax-consulting") return true;
   if (pathname === "/ax-consulting/result") return true;

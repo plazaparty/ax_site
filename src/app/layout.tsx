@@ -23,7 +23,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: site,
-  title: "ai.kt.com | AX Discovery Platform",
+  title: "ai.kt.com | AX Platform Company",
   description:
     "고객 문제를 구조화하고 AX 전략·솔루션을 추천하는 KT AI Native Discovery Platform.",
   alternates: {
@@ -33,8 +33,8 @@ export const metadata: Metadata = {
     type: "website",
     locale: "ko_KR",
     url: site,
-    siteName: "KT AX Discovery Platform",
-    title: "ai.kt.com | AX Discovery Platform",
+    siteName: "AX Platform Company",
+    title: "ai.kt.com | AX Platform Company",
     description:
       "고객 문제를 구조화하고 AX 전략·솔루션을 추천하는 KT AI Native Discovery Platform.",
   },
@@ -47,7 +47,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <body className="min-h-screen bg-white text-gray-900 antialiased">
+      <body className="min-h-dvh bg-white text-gray-900 antialiased">
         <CustomerProvider>
           <ConsultModalProvider>
             <Header />

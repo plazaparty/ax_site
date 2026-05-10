@@ -22,7 +22,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             className="text-xs font-semibold uppercase tracking-[0.2em] text-red-300"
           >
-            KT AX Discovery Platform
+            AX Platform Company
           </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 12 }}
@@ -149,9 +149,9 @@ export default function Home() {
             <div className="rounded-2xl border border-gray-900 bg-gray-900 p-8 text-white shadow-xl">
               <p className="text-xs font-semibold uppercase tracking-wider text-red-300">인사이트</p>
               <h3 className="mt-2 text-xl font-semibold tracking-tight">전략 신호</h3>
-              <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+              <ul className="mt-6 grid max-h-[min(72vh,56rem)] gap-3 overflow-y-auto pr-1 sm:max-h-none sm:grid-cols-2 sm:overflow-visible lg:grid-cols-2 xl:grid-cols-3">
                 {insightHighlights.map((it) => (
-                  <li key={it.title}>
+                  <li key={it.href}>
                     <Link
                       href={it.href}
                       className="group flex h-full flex-col rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-4 transition-colors hover:border-red-300/40 hover:bg-white/[0.07]"

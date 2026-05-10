@@ -5,27 +5,14 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import AXMaturityLadder from "@/components/ax-viz/AXMaturityLadder";
-import EffortImpactScatter from "@/components/ax-viz/EffortImpactScatter";
 import KPIImpactMatrix from "@/components/ax-viz/KPIImpactMatrix";
 import PrerequisiteChecklist from "@/components/ax-viz/PrerequisiteChecklist";
-import RecommendationReasonCard from "@/components/ax-viz/RecommendationReasonCard";
 import RiskChecklist from "@/components/ax-viz/RiskChecklist";
 import RoadmapTimeline from "@/components/ax-viz/RoadmapTimeline";
 import SolutionFitBar from "@/components/ax-viz/SolutionFitBar";
-import { recommendationRulesSummary } from "@/data/axPlatform/recommendationRules";
 import { useConsultModal } from "@/context/ConsultModalContext";
 import { roadmapPhases } from "@/lib/buildRecommendations";
 import { useConsultingWizardStore } from "@/store/consultingWizardStore";
-
-function complexityToEffort(c: string): number {
-  if (c === "낮음") return 0.25;
-  if (c === "높음") return 0.88;
-  return 0.55;
-}
-
-function fitToImpact(p: number): number {
-  return Math.min(0.95, 0.35 + (p / 100) * 0.55);
-}
 
 export default function ConsultingResultVisuals() {
   const { open: openConsultModal } = useConsultModal();
@@ -52,18 +39,6 @@ export default function ConsultingResultVisuals() {
   const poc = consultingMeta?.poc;
   const execLines = consultingMeta?.executiveSummaryLines ?? [];
   const phases = roadmapPhases({ axLevel, industry });
-
-  const scatterPoints = useMemo(
-    () =>
-      recommendations.map((r) => ({
-        id: r.id,
-        label: r.name.replace(/^KT\s*/, ""),
-        effort: complexityToEffort(r.deploymentComplexity),
-        impact: fitToImpact(r.fitPercent),
-        note: `${r.deploymentComplexity} · 적합 ${r.fitPercent}%`,
-      })),
-    [recommendations]
-  );
 
   const matrixRows = useMemo(() => {
     const patterns: ("낮음" | "중간" | "높음")[][] = [
@@ -205,29 +180,11 @@ export default function ConsultingResultVisuals() {
           </div>
         </section>
 
-        <section className="mt-8 grid gap-6 lg:grid-cols-2">
-          <div>
-            <h2 className="text-[10px] font-semibold uppercase tracking-wider text-gray-500">KPI impact matrix</h2>
-            <p className="mt-1 text-xs text-gray-500">비용·속도·품질·리스크 관점의 상대 강도입니다.</p>
-            <div className="mt-4">
-              <KPIImpactMatrix rows={matrixRows} />
-            </div>
-          </div>
-          <div>
-            <h2 className="text-[10px] font-semibold uppercase tracking-wider text-gray-500">난이도 vs 기대효과</h2>
-            <p className="mt-1 text-xs text-gray-500">복잡도(가로)와 적합도 기반 임팩트(세로)의 2차원 배치입니다.</p>
-            <div className="mt-4 flex justify-center">
-              <EffortImpactScatter points={scatterPoints} />
-            </div>
-          </div>
-        </section>
-
-        <section className="mt-10">
-          <h2 className="text-[10px] font-semibold uppercase tracking-wider text-gray-500">추천 근거 룰</h2>
-          <div className="mt-4 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-            {recommendationRulesSummary.map((rule) => (
-              <RecommendationReasonCard key={rule.id} title={rule.title} bullets={[rule.body]} />
-            ))}
+        <section className="mt-8">
+          <h2 className="text-[10px] font-semibold uppercase tracking-wider text-gray-500">KPI impact matrix</h2>
+          <p className="mt-1 text-xs text-gray-500">비용·속도·품질·리스크 관점의 상대 강도입니다.</p>
+          <div className="mt-4 max-w-3xl">
+            <KPIImpactMatrix rows={matrixRows} />
           </div>
         </section>
 
