@@ -1,10 +1,11 @@
 import { notFound } from "next/navigation";
 import ServiceMonoIcon from "@/components/icons/ServiceMonoIcon";
+import EnterprisePillarPage from "@/components/solution-pillars/EnterprisePillarPage";
 import SolutionDetailViz from "../SolutionDetailViz";
-import SolutionPillarPageView from "../SolutionPillarPageView";
+import { getEnterprisePillarContent } from "@/data/enterprisePillar";
 import { solutionDetails } from "@/data/detailContent";
 import { solutionNarrative } from "@/data/detailNarratives";
-import { isSolutionPillarSlug, solutionPillarPages, SOLUTION_PILLAR_SLUGS } from "@/data/solutionPillars";
+import { isSolutionPillarSlug, SOLUTION_PILLAR_SLUGS } from "@/data/solutionPillars";
 import { solutionSlugToIcon } from "@/data/solutionIcons";
 import { portalPanelTone } from "@/data/portalVisual";
 
@@ -22,7 +23,9 @@ export default async function SolutionDetailPage({
   const { slug } = await params;
 
   if (isSolutionPillarSlug(slug)) {
-    return <SolutionPillarPageView slug={slug} model={solutionPillarPages[slug]} />;
+    const pillar = getEnterprisePillarContent(slug);
+    if (!pillar) notFound();
+    return <EnterprisePillarPage content={pillar} />;
   }
 
   const d = solutionDetails[slug];
