@@ -136,7 +136,7 @@ export default function Header() {
           onClick={() => setSheet(false)}
           aria-label="홈 — AX Platform Company"
         >
-          <KtLogo className="h-7 w-[4.75rem] shrink-0 sm:h-8 sm:w-[5.25rem]" />
+          <KtLogo className="shrink-0" />
           <div className="min-w-0 leading-tight">
             <div className="truncate text-sm font-semibold tracking-tight text-gray-900">
               AX Platform Company

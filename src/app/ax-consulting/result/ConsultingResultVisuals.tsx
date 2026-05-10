@@ -36,7 +36,6 @@ export default function ConsultingResultVisuals() {
   if (!recommendations.length) return null;
 
   const maturity = consultingMeta?.maturity;
-  const poc = consultingMeta?.poc;
   const execLines = consultingMeta?.executiveSummaryLines ?? [];
   const phases = roadmapPhases({ axLevel, industry });
 
@@ -98,10 +97,10 @@ export default function ConsultingResultVisuals() {
           </div>
         </header>
 
-        <section className="mt-8 grid gap-4 lg:grid-cols-3">
-          <div className="rounded-xl border border-gray-200 bg-white p-5 lg:col-span-2">
+        <section className="mt-8">
+          <div className="rounded-xl border border-gray-200 bg-white p-5">
             <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-500">선택 요약 프로필</p>
-            <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
+            <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-3">
               <div>
                 <dt className="text-xs text-gray-500">조직</dt>
                 <dd className="font-semibold text-gray-900">{customerType ?? "—"}</dd>
@@ -118,24 +117,12 @@ export default function ConsultingResultVisuals() {
                 <dt className="text-xs text-gray-500">우선 워크스트림</dt>
                 <dd className="font-semibold text-gray-900">{priorityTask ?? "—"}</dd>
               </div>
-              <div className="sm:col-span-2">
+              <div className="sm:col-span-2 lg:col-span-3">
                 <dt className="text-xs text-gray-500">관심 과제</dt>
                 <dd className="font-medium text-gray-800">{concerns.length ? concerns.join(" · ") : "—"}</dd>
               </div>
             </dl>
           </div>
-          {poc ? (
-            <div className="rounded-xl border border-gray-900 bg-gray-900 p-5 text-white">
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-red-300/90">PoC readiness</p>
-              <p className="mt-2 text-3xl font-semibold tabular-nums">{poc.score}</p>
-              <p className="text-xs text-white/50">/ 100</p>
-              <p className="mt-3 text-sm text-white/75">{poc.headline}</p>
-            </div>
-          ) : (
-            <div className="rounded-xl border border-dashed border-gray-300 bg-white/50 p-5 text-sm text-gray-500">
-              PoC 준비도는 세션 메타가 있을 때 표시됩니다.
-            </div>
-          )}
         </section>
 
         {execLines.length > 0 ? (
