@@ -1,14 +1,17 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
-import Header from "@/components/Header";
-import MainShell from "@/components/MainShell";
-import FloatingCTA from "@/components/FloatingCTA";
+import RootChrome from "@/components/layout/RootChrome";
 import { ConsultModalProvider } from "@/context/ConsultModalContext";
 import { CustomerProvider } from "@/context/CustomerContext";
 
-/** 운영 기본 도메인 — Vercel 등에서는 `NEXT_PUBLIC_SITE_URL`로 덮어쓰기 */
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://ai.kt.com";
+/** 운영 기본 도메인 — Vercel Preview/Production에서는 env 또는 VERCEL_URL 사용 */
+function resolveSiteUrl(): string {
+  if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+  return "https://ai.kt.com";
+}
+const siteUrl = resolveSiteUrl();
 const site = new URL(siteUrl.endsWith("/") ? siteUrl.slice(0, -1) : siteUrl);
 
 export const viewport: Viewport = {
@@ -50,9 +53,7 @@ export default function RootLayout({
       <body className="min-h-dvh bg-white text-gray-900 antialiased">
         <CustomerProvider>
           <ConsultModalProvider>
-            <Header />
-            <MainShell>{children}</MainShell>
-            <FloatingCTA />
+            <RootChrome>{children}</RootChrome>
           </ConsultModalProvider>
         </CustomerProvider>
       </body>

@@ -15,6 +15,11 @@ const nextConfig: NextConfig = {
 
   async redirects() {
     return [
+      {
+        source: "/ax-kt/view/:axis/:slug",
+        destination: "/ax-kt/detail/explore/:axis/:slug",
+        permanent: false,
+      },
       { source: "/consultant", destination: "/ax-consulting", permanent: false },
       /** 브라우저 기본 요청 `/favicon.ico` — `app/icon.tsx`는 `/icon`에 매핑됨 */
       { source: "/favicon.ico", destination: "/icon", permanent: false },

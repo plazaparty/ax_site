@@ -32,10 +32,22 @@ export const industriesExplore = [
     href: "/ax-explore/industry/healthcare",
   },
   {
-    slug: "telecom",
-    title: "통신 AX",
-    pain: "고객 이탈, OSS/BSS 복잡도, 서비스 속도 경쟁",
-    href: "/ax-explore/industry/telecom",
+    slug: "defense",
+    title: "국방 AX",
+    pain: "작전·보안, 지훈련 데이터, 현장·본부 연동",
+    href: "/ax-explore/industry/defense",
+  },
+  {
+    slug: "safety",
+    title: "안전·건설 AX",
+    pain: "현장 위험 감지, 점검 문서, 설비 데이터 단절",
+    href: "/ax-explore/industry/safety",
+  },
+  {
+    slug: "services",
+    title: "서비스·기타 AX",
+    pain: "채널 다양화, 표준화·자동화, 데이터 활용",
+    href: "/ax-explore/industry/services",
   },
 ];
 

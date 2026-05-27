@@ -131,7 +131,7 @@ export default function AxValuePage() {
             aria-label="AX Value Framework 이미지 확대"
           >
             <Image
-                    src="/api/ax-value-framework"
+                    src="/images/ax-value-framework.png"
               alt="KT AX Value Framework"
               width={1600}
               height={900}
@@ -300,7 +300,7 @@ export default function AxValuePage() {
 
             <div className="max-h-[80vh] overflow-auto bg-gray-50 p-3 md:p-5">
               <Image
-                      src="/api/ax-value-framework"
+                      src="/images/ax-value-framework.png"
                 alt="KT AX Value Framework 확대"
                 width={2000}
                 height={1200}

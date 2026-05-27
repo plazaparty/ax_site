@@ -1,6 +1,9 @@
 import type { IndustryVisualSlug } from "@/components/icons/IndustryMonoIcon";
 
 export function slugToIndustryVisual(slug: string): IndustryVisualSlug {
+  if (slug === "defense") return "telecom";
+  if (slug === "safety") return "manufacturing";
+  if (slug === "services") return "retail";
   const s = slug as IndustryVisualSlug;
   if (
     s === "public" ||

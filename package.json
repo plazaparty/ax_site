@@ -2,6 +2,9 @@
   "name": "kt-ax-demo",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "lan:url": "node scripts/print-lan-url.mjs",
     "dev": "node scripts/dev-wifi.mjs",
@@ -16,7 +19,8 @@
     "start:wifi": "next start --hostname 0.0.0.0 --port 3000",
     "start:public": "npm run start:wifi",
     "start:3050": "next start --hostname 127.0.0.1 --port 3050",
-    "lint": "next lint"
+    "lint": "next lint",
+    "vercel:preflight": "npm run build"
   },
   "dependencies": {
     "framer-motion": "^12.38.0",

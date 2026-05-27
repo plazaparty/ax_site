@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { primaryNav } from "@/data/siteNav";
+import { axKtPrototype, primaryNav } from "@/data/siteNav";
 import KtLogo from "@/components/branding/KtLogo";
 
 export default function Header() {
@@ -95,6 +95,16 @@ export default function Header() {
                 메뉴
               </p>
               <nav className="mt-3 px-2 pb-6" aria-label="주요 메뉴">
+                <Link
+                  href={axKtPrototype.href}
+                  onClick={() => setSheet(false)}
+                  className="mb-3 flex min-h-[52px] items-center justify-between rounded-2xl border border-slate-800 bg-slate-900 px-4 py-3.5 text-[15px] font-semibold text-cyan-100"
+                >
+                  <span>{axKtPrototype.label}</span>
+                  <span className="text-sm text-cyan-400/80" aria-hidden>
+                    →
+                  </span>
+                </Link>
                 <ul className="divide-y divide-gray-100 rounded-2xl border border-gray-200 bg-white">
                   {primaryNav.map((item) => {
                     const active =
@@ -213,6 +223,16 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <Link
+            href={axKtPrototype.href}
+            className={`hidden min-h-[40px] items-center rounded-xl border px-3 text-[12px] font-semibold transition-colors sm:inline-flex ${
+              pathname === axKtPrototype.href || pathname.startsWith(`${axKtPrototype.href}/`)
+                ? "border-cyan-600 bg-cyan-50 text-cyan-900"
+                : "border-slate-200 bg-slate-900 text-cyan-100 hover:border-cyan-500/50 hover:bg-slate-800"
+            }`}
+          >
+            {axKtPrototype.label}
+          </Link>
           <button
             type="button"
             className="inline-flex rounded-xl p-2 text-gray-700 hover:bg-gray-50 lg:hidden"

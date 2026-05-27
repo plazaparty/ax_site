@@ -11,6 +11,7 @@ export type PageVizConfig = {
 export function isExcludedFromGlobalPageViz(pathname: string): boolean {
   if (pathname === "/" || pathname.startsWith("/insights-hub") || pathname.startsWith("/insights/example")) return true;
   if (pathname === "/ax-explore" || pathname === "/use-case") return true;
+  if (pathname === "/ax-kt" || pathname.startsWith("/ax-kt/")) return true;
   if (pathname === "/ax-consulting") return true;
   if (pathname === "/ax-consulting/result") return true;
   if (/^\/ax-explore\/(industry|task|stage|solution)\/.+/.test(pathname)) return true;

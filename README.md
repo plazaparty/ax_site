@@ -13,8 +13,16 @@
 ```
 메인 랜딩 (/) ─┬→ AI 컨설턴트 (/consultant)
                ├→ KT AX 둘러보기 (/explore)
+               ├→ AX.KT 다크 프로토타입 (/ax-kt) — ax-kt-com.jsx 반영 버전
                └→ AX 허브 메뉴 (/ax-value, /ax-maturity, …)
 ```
+
+### `/ax-kt` (ax-kt-com.jsx 반영)
+
+`Downloads/ai.kt.com/ax-kt-com.jsx`를 Next.js에 이식한 **독립 UI 버전**입니다. 다크 테마, AI Consultant 채팅형 진단, AX 도입·Use Case·Insight SPA가 한 경로에서 동작하며 기본 사이트 헤더/플로팅 CTA는 표시하지 않습니다.
+
+- 소스: `src/ax-kt/AxKtComApp.tsx`
+- 로컬: `http://127.0.0.1:3000/ax-kt`
 
 1. **메인 랜딩** — 상단 메뉴, Hero, AX 정보 허브 카드, 하단 CTA
 2. **AX 메뉴 페이지** — Tech Stack, 추진 단계, 산업별, Trends, 소식·이벤트 (더미)
@@ -38,14 +46,14 @@ npm run build && npm start
 
 ### 1) Vercel에 배포 (권장, Next.js에 최적)
 
-1. [vercel.com](https://vercel.com)에 가입 후 GitHub에 이 저장소를 푸시합니다.
-2. Vercel 대시보드에서 **Add New → Project**로 저장소를 import합니다.
-3. Framework Preset이 **Next.js**로 잡히면 그대로 **Deploy**합니다.  
-   빌드·호스트·HTTPS URL이 자동으로 생성됩니다.
+상세 체크리스트: **[docs/DEPLOY_VERCEL.md](docs/DEPLOY_VERCEL.md)**
 
-별도 `vercel.json` 없이도 이 프로젝트는 기본 설정으로 배포 가능합니다.
+1. 로컬 검증: `npm run vercel:preflight`
+2. GitHub `plazaparty/ax_site`에 최신 코드 푸시 (`src/app/ax-kt`, `src/ax-kt` 포함)
+3. [vercel.com/new](https://vercel.com/new) → 저장소 Import → **Deploy**
+4. (선택) Production 환경 변수 `NEXT_PUBLIC_SITE_URL=https://your-domain.vercel.app`
 
-배포 환경에서 **기준 URL(OG·canonical·메타데이터)** 을 맞추려면 Vercel 등에 `NEXT_PUBLIC_SITE_URL`을 설정합니다. 값을 두지 않으면 코드 기본값은 **`https://ai.kt.com`** 입니다. (로컬 전용 주소는 `.env.local`에 예: `NEXT_PUBLIC_SITE_URL=http://127.0.0.1:3000`)
+Preview 배포는 `VERCEL_URL`을 metadataBase에 자동 사용합니다. Production에서 고정 URL이 필요하면 `NEXT_PUBLIC_SITE_URL`을 설정하세요.
 
 ### 2) 임시 공개 — ngrok (로컬을 URL로 노출)
 

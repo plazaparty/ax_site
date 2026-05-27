@@ -6,6 +6,13 @@ export interface PrimaryNavItem {
   megaLinks?: { label: string; href: string; hint: string }[];
 }
 
+/** ax-kt-com.jsx 반영 다크 프로토타입 (독립 SPA) */
+export const axKtPrototype = {
+  label: "AX.KT 프로토타입",
+  href: "/ax-kt",
+  description: "AI Consultant · AX 도입 · Use Case · Insight (다크 UI)",
+} as const;
+
 /** Mobile-first: flat primary destinations only (depth in hubs). */
 export const primaryNav: PrimaryNavItem[] = [
   {
@@ -16,6 +23,7 @@ export const primaryNav: PrimaryNavItem[] = [
       { label: "AX 컨설팅으로", href: "/ax-consulting", hint: "진단 시작" },
       { label: "AX 탐색", href: "/ax-explore", hint: "4축 지도" },
       { label: "Use Case", href: "/use-case", hint: "사례 라이브러리" },
+      { label: axKtPrototype.label, href: axKtPrototype.href, hint: axKtPrototype.description },
     ],
   },
   {

@@ -6,6 +6,7 @@ import DiscoveryFlowDiagram from "@/components/ax-viz/DiscoveryFlowDiagram";
 import DiscoveryCard from "@/components/DiscoveryCard";
 import PortalMonoIcon from "@/components/icons/PortalMonoIcon";
 import { homeProofMetrics, whyKtAxPillars } from "@/data/axPlatform/homePlatform";
+import { axKtPrototype } from "@/data/siteNav";
 import { axExploreHubTiles, featuredUseCases, insightHighlights, scenarioCards } from "@/data/homeDiscovery";
 
 export default function Home() {
@@ -55,13 +56,19 @@ export default function Home() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.18 }}
-            className="mt-10 flex justify-center"
+            className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row"
           >
             <Link
               href="/ax-consulting"
               className="inline-flex min-h-[56px] min-w-[240px] items-center justify-center rounded-2xl bg-red-600 px-8 text-base font-semibold text-white shadow-xl shadow-red-900/30 hover:bg-red-500"
             >
               AX 컨설팅 시작
+            </Link>
+            <Link
+              href={axKtPrototype.href}
+              className="inline-flex min-h-[52px] min-w-[240px] items-center justify-center rounded-2xl border border-cyan-400/40 bg-cyan-500/10 px-8 text-base font-semibold text-cyan-100 hover:border-cyan-300/60 hover:bg-cyan-500/20"
+            >
+              {axKtPrototype.label} 열기
             </Link>
           </motion.div>
         </div>

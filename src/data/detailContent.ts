@@ -85,6 +85,33 @@ export const industryDetails: Record<string, IndustryDetail> = {
     useCases: ["네트워크 운용 알림 요약", "고가치 고객 케어 자동화"],
     demoHref: "/ax-consulting",
   },
+  defense: {
+    title: "국방 AX",
+    painPoints: ["작전·훈련 데이터 민감도", "지휘통신·보안 요구", "현장·본부 정보 단절"],
+    scenarios: ["근거 기반 보고 자동화", "장비 예지보전", "훈련 시뮬레이션 데이터 분석"],
+    solutions: ["KT Knowledge AI", "KT Vision AX", "KT Workflow AI"],
+    effects: ["의사결정 리드타임 단축", "운용 리스크 가시화"],
+    useCases: ["현장 정비 지원 Agent", "문서·규정 검색 고도화"],
+    demoHref: "/ax-consulting",
+  },
+  safety: {
+    title: "안전·건설 AX",
+    painPoints: ["현장 안전 사각지대", "일일 안전 점검 문서 폭증", "설비·공정 데이터 분산"],
+    scenarios: ["영상 기반 위험 행동 탐지", "안전 문서 자동 분류", "IoT 센서 이상 알림"],
+    solutions: ["KT Vision AX", "KT Document AI", "KT Workflow AI"],
+    effects: ["재해 예방 강화", "점검·보고 시간 단축"],
+    useCases: ["건설 현장 CCTV 분석", "설비 점검 리포트 자동화"],
+    demoHref: "/ax-consulting",
+  },
+  services: {
+    title: "서비스·기타 AX",
+    painPoints: ["업무 표준화 어려움", "고객 접점 채널 다양화", "데이터 활용 미숙"],
+    scenarios: ["고객 응대 Copilot", "내부 지식 검색", "반복 업무 자동화"],
+    solutions: ["KT AICC Plus", "KT Knowledge AI", "KT AI Agent Studio"],
+    effects: ["처리 속도·품질 향상", "운영 비용 최적화"],
+    useCases: ["콜센터 상담 보조", "사내 규정 Q&A"],
+    demoHref: "/ax-consulting",
+  },
 };
 
 export interface TaskDetail {
