@@ -49,6 +49,15 @@ export const monoBannerStyle: CSSProperties = {
 /** 홈 AI Consultant 영역 — 예시 프롬프트 상단 라벨 (영문) */
 export const SAMPLE_PROMPTS_HEADING = "Sample prompts";
 
+/** 홈 AI Consultant — 5단계 진단 안내 */
+export const CONSULTANT_FLOW_STEPS = [
+  { step: 1, title: "산업군 선택", hint: "산업 특화", icon: "🏭" },
+  { step: 2, title: "기업규모", hint: "규모 맞춤", icon: "🏢" },
+  { step: 3, title: "AI 성숙도", hint: "성숙 진단", icon: "📊" },
+  { step: 4, title: "경영과제", hint: "과제 정렬", icon: "🎯" },
+  { step: 5, title: "성과 예측", hint: "ROI 시뮬", icon: "📈" },
+] as const;
+
 export const CONSULTANT_PROMPT_EXAMPLES = [
   {
     prompt: "금융 대기업의 고객센터를 AX 해줘",

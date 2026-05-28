@@ -109,6 +109,27 @@
   }
 }
 
+.ax-kt-chat-input-placeholder::placeholder {
+  color: #9ca3af;
+  opacity: 1;
+}
+
+.ax-kt-consultant-steps {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+@media (max-width: 520px) {
+  .ax-kt-consultant-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ax-kt-consultant-steps > div:nth-child(5) {
+    grid-column: 1 / -1;
+    max-width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
 /* ── AX Consultant 1-page report ── */
 .ax-kt-report {
   --ax-report-accent: #e8002d;

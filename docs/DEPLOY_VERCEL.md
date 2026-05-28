@@ -1,6 +1,27 @@
 # Vercel 배포 가이드 (kt-ax-demo)
 
-이 문서는 현재 버전(AX.KT `/ax-kt` 포함)을 Vercel에 올리기 위한 체크리스트입니다.
+이 문서는 **가장 최신 버전**(AX.KT `/ax-kt`, AI Consultant 리포트 포함)을 Vercel에 올리기 위한 체크리스트입니다.
+
+## 한 줄 배포 (로컬 터미널)
+
+프로젝트 루트에서:
+
+```bash
+chmod +x scripts/deploy-vercel.sh
+./scripts/deploy-vercel.sh
+```
+
+`vercel login` 후 Production URL이 출력됩니다. AX.KT는 `{URL}/ax-kt` 입니다.
+
+## GitHub 푸시만으로 배포할 때
+
+1. `git push origin main` 완료 여부 확인 (`git log -1` = `41b9ff1` 이후 커밋 포함)
+2. Vercel 대시보드 → 프로젝트 → **Deployments** → 최신 Production이 **Ready** 인지 확인
+3. **Settings → Git** 에서 Repository가 `plazaparty/ax_site`, Branch `main`, Root Directory **비움(루트)** 인지 확인
+4. 예전 다른 앱이 보이면: **Deployments → … → Redeploy** (Use existing Build Cache **끔**)
+
+> `https://ax-site.vercel.app` 에 예전 앱(Axly 등)이 보이면, Vercel 프로젝트가 다른 저장소/브랜치에 연결됐을 수 있습니다.  
+> `./scripts/deploy-vercel.sh` 로 새로 link 하거나, 대시보드에서 **올바른 repo**로 다시 Import 하세요.
 
 ## 사전 요건
 

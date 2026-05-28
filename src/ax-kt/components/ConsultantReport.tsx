@@ -5,8 +5,12 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { INDUSTRY_SLUG_LABELS, solutionLineHref } from "../consultantLinks";
 import { G } from "../theme";
+import {
+  buildIndustryTrendNarrative,
+  buildQuantitativeOutcomeLine,
+  getIndustryTrend,
+} from "../consultantReportInsights";
 import { USE_CASES } from "../useCaseData";
-import ExpertConsultForm from "./ExpertConsultForm";
 
 const SOLUTIONS = {
   AI: {
@@ -43,15 +47,11 @@ const SOLUTIONS = {
   },
 };
 
-const TECH_LABEL: Record<string, string> = {
-  llm: "LLM",
-  vision: "비전",
-  mlops: "MLOps",
-  cloud: "클라우드",
-  data_platform: "데이터 플랫폼",
-  edge: "엣지",
-  security: "보안",
-  readiness: "AX 진단·전략",
+const HORIZON_LABEL: Record<string, string> = {
+  short: "단기 (3개월 이내)",
+  mid_term: "중기 (6개월~1년)",
+  long: "장기 (1년 이상)",
+  quick_win: "즉각 퀵 윈",
 };
 
 const NEEDS_LABEL: Record<string, string> = {
@@ -64,20 +64,28 @@ const NEEDS_LABEL: Record<string, string> = {
 };
 
 function pickAISolutionItems(ans: Record<string, unknown>) {
-  const tech = Array.isArray(ans.tech) ? ans.tech : [];
+  const horizon = String(ans.horizon || "");
+  const legacyTech = Array.isArray(ans.tech) ? ans.tech : [];
+  const needs = Array.isArray(ans.needs) ? ans.needs : [];
   const out = new Set<string>();
   out.add("KT AI Studio");
   out.add("KT AI Agent Studio");
-  if (tech.includes("llm")) {
+
+  if (horizon === "quick_win" || horizon === "short") {
+    out.add("KT Workflow AI");
+    out.add("KT AICC Plus");
+  }
+  if (horizon === "mid_term" || horizon === "long") {
     out.add("KT Knowledge AI");
     out.add("KT Document AI");
-    out.add("KT Workflow AI");
   }
-  if (tech.includes("vision")) out.add("KT Vision AX");
-  if (tech.includes("mlops")) out.add("KT AI Studio");
-  if (tech.includes("edge")) out.add("KT Vision AX");
-  if (tech.includes("security")) out.add("KT Knowledge AI");
-  const needs = Array.isArray(ans.needs) ? ans.needs : [];
+  if (horizon === "long") out.add("KT Data Insight AI");
+
+  if (legacyTech.includes("llm")) {
+    out.add("KT Knowledge AI");
+    out.add("KT Document AI");
+  }
+  if (legacyTech.includes("vision")) out.add("KT Vision AX");
   if (needs.includes("cx")) out.add("KT AICC Plus");
   if (needs.includes("speed")) out.add("KT Workflow AI");
   if (needs.includes("quality")) out.add("KT Document AI");
@@ -85,9 +93,19 @@ function pickAISolutionItems(ans: Record<string, unknown>) {
 }
 
 function buildAIStrategySection(ans: Record<string, unknown>) {
-  const tech = Array.isArray(ans.tech) ? ans.tech : [];
+  const horizon = String(ans.horizon || "");
   const needs = Array.isArray(ans.needs) ? ans.needs : [];
-  const techLabels = tech.map((t) => TECH_LABEL[t]).filter(Boolean);
+  const horizonLabel = HORIZON_LABEL[horizon];
+  const pilotWindow =
+    horizon === "quick_win"
+      ? "2~4주 퀵 윈"
+      : horizon === "short"
+        ? "4~8주 파일럿"
+        : horizon === "mid_term"
+          ? "3~6개월 단계 검증"
+          : horizon === "long"
+            ? "6~12개월 로드맵"
+            : "4~8주 파일럿";
   const kpis = [
     needs.includes("cost") ? "처리 비용·인건비 절감" : null,
     needs.includes("quality") ? "정확도·불량/오류율" : null,
@@ -98,11 +116,11 @@ function buildAIStrategySection(ans: Record<string, unknown>) {
   ].filter(Boolean);
 
   return {
-    subtitle: techLabels.length ? `관심 기술 · ${techLabels.join(" · ")}` : "현업 성과 중심 제안",
+    subtitle: horizonLabel ? `성과 기대 시점 · ${horizonLabel}` : "현업 성과 중심 제안",
     bullets: [
       {
         h: "우선 적용 시나리오",
-        v: "업무 1~2개를 선정해 파일럿을 구성하고, 4~8주 내 운영 KPI로 성공 여부를 검증합니다.",
+        v: `업무 1~2개를 선정해 ${pilotWindow} 안에 가시 성과를 검증하고, 운영 KPI로 확산 여부를 판단합니다.`,
       },
       {
         h: "필수 데이터·연동",
@@ -130,7 +148,8 @@ function buildExecutiveSummary(
     .map((n) => NEEDS_LABEL[n])
     .filter(Boolean);
   const needsPhrase = needs.length ? `${needs.slice(0, 2).join("·")}에 초점을 맞춰` : "핵심 과제에 초점을 맞춰";
-  return `${industryLabel} ${sizeLabel}의 ${maturityLabel} 단계 특성을 반영해, ${needsPhrase} AI·플랫폼·운영 거버넌스를 한 흐름으로 설계했습니다. 파일럿 → 검증 → 전사 확산 순으로 투자 리스크를 통제하면서 KPI를 단계별로 달성하는 구조입니다.`;
+  const primary = `${industryLabel} ${sizeLabel}의 ${maturityLabel} 단계 특성을 반영해, ${needsPhrase} AI·플랫폼·운영 거버넌스를 한 흐름으로 설계했습니다. 파일럿 → 검증 → 전사 확산 순으로 투자 리스크를 통제하면서 KPI를 단계별로 달성하는 구조입니다.`;
+  return { primary };
 }
 
 function ReportSection({
@@ -172,12 +191,13 @@ function MetaTag({ children, tone = "neutral" }: { children: React.ReactNode; to
 export default function ConsultantReport({
   answers,
   onRestart,
+  onRequestExpertConsult,
 }: {
   answers: Record<string, unknown>;
   onRestart: () => void;
+  onRequestExpertConsult?: () => void;
 }) {
   const [compact, setCompact] = useState(false);
-  const [showForm, setShowForm] = useState(false);
 
   const ans = answers;
   const sizeMap: Record<string, string> = {
@@ -194,12 +214,17 @@ export default function ConsultantReport({
     optimizing: "최적화",
   };
   const score = { exploring: 22, piloting: 45, scaling: 68, optimizing: 85 }[ans.maturity as string] || 30;
+  const horizonKey = String(ans.horizon || "");
   const recSols =
-    (ans.tech as string[] | undefined)?.includes("cloud")
-      ? ["Cloud", "AI"]
-      : (ans.tech as string[] | undefined)?.includes("data_platform")
-        ? ["Data", "AI"]
-        : ["AI", "Readiness"];
+    horizonKey === "quick_win"
+      ? ["AI", "Readiness"]
+      : horizonKey === "short"
+        ? ["AI"]
+        : horizonKey === "mid_term"
+          ? ["AI", "Cloud"]
+          : horizonKey === "long"
+            ? ["AI", "Data", "Readiness"]
+            : ["AI", "Readiness"];
 
   const industryLabel = INDUSTRY_SLUG_LABELS[ans.industry as string] || String(ans.industry || "");
   const sizeLabel = sizeMap[ans.size as string] || "기업";
@@ -251,10 +276,13 @@ export default function ConsultantReport({
 
   const aiSection = buildAIStrategySection(ans);
   const executiveSummary = buildExecutiveSummary(industryLabel, sizeLabel, maturityLabel, ans);
+  const industrySlug = String(ans.industry || "");
+  const trend = getIndustryTrend(industrySlug);
+  const trendNarrative = buildIndustryTrendNarrative(industrySlug);
+  const outcomeLine = buildQuantitativeOutcomeLine(industrySlug, horizonKey, recSols);
 
   return (
-    <>
-      <article className="ax-kt-report">
+    <article className="ax-kt-report">
         <div className="ax-kt-report__stripe" aria-hidden />
 
         <header className="ax-kt-report__masthead">
@@ -294,13 +322,35 @@ export default function ConsultantReport({
         </header>
 
         <div className="ax-kt-report__body">
-          <ReportSection num="01" title="Executive Summary">
-            <p className="ax-kt-report__exec">{executiveSummary}</p>
+          <ReportSection num="01" title="산업 AX 트렌드">
+            <p className="ax-kt-report__exec" style={{ borderLeftColor: "#7c3aed" }}>
+              {trendNarrative}
+            </p>
+            <div className="mt-3 grid grid-cols-3 gap-2">
+              {trend.metrics.map((m) => (
+                <div
+                  key={m.label}
+                  className="rounded-xl border border-gray-200 bg-gray-50 px-2 py-2.5 text-center"
+                >
+                  <p className="text-[15px] font-bold tabular-nums text-red-600">{m.value}</p>
+                  <p className="mt-1 text-[10px] leading-snug text-gray-500">{m.label}</p>
+                </div>
+              ))}
+            </div>
+          </ReportSection>
+
+          <ReportSection num="02" title="Executive Summary">
+            <div className="space-y-3">
+              <p className="ax-kt-report__exec">{executiveSummary.primary}</p>
+              <p className="ax-kt-report__exec" style={{ borderLeftColor: G.accent }}>
+                {outcomeLine}
+              </p>
+            </div>
           </ReportSection>
 
           <div className="grid gap-5 lg:grid-cols-12">
             <div className="space-y-5 lg:col-span-7">
-              <ReportSection num="02" title="추천 AX 솔루션 스택">
+              <ReportSection num="03" title="추천 AX 솔루션 스택">
                 <div className="space-y-2.5">
                   {recSols.map((key) => {
                     const sol = SOLUTIONS[key];
@@ -345,7 +395,7 @@ export default function ConsultantReport({
               </ReportSection>
 
               {!compact && (
-                <ReportSection num="03" title="AI 솔루션 실행 제안">
+                <ReportSection num="04" title="AI 솔루션 실행 제안">
                   <p className="mb-3 text-[12px] leading-relaxed text-gray-500">{aiSection.subtitle}</p>
                   <div className="rounded-xl border border-gray-200 bg-white px-1 py-0.5">
                     {aiSection.bullets.map((b) => (
@@ -360,7 +410,7 @@ export default function ConsultantReport({
             </div>
 
             <div className="space-y-5 lg:col-span-5">
-              <ReportSection num={compact ? "03" : "04"} title="실행 로드맵">
+              <ReportSection num={compact ? "04" : "05"} title="실행 로드맵">
                 <div className="ax-kt-report__timeline">
                   {roadmap.map((r) => (
                     <div key={r.ph} className="ax-kt-report__phase">
@@ -376,7 +426,7 @@ export default function ConsultantReport({
 
               {!compact && (
                 <>
-                  <ReportSection num="05" title="투자·거버넌스">
+                  <ReportSection num="06" title="투자·거버넌스">
                     <dl className="rounded-xl border border-gray-200 bg-white px-3 py-1">
                       {[
                         ["초기 구축", budget],
@@ -392,7 +442,7 @@ export default function ConsultantReport({
                     </dl>
                   </ReportSection>
 
-                  <ReportSection num="06" title="리스크·완화">
+                  <ReportSection num="07" title="리스크·완화">
                     <ul className="space-y-2 text-[12px] leading-relaxed text-gray-600">
                       {[
                         "파일럿 전 데이터 품질·접근 권한·감사 로그 합의",
@@ -409,7 +459,7 @@ export default function ConsultantReport({
                 </>
               )}
 
-              <ReportSection num={compact ? "04" : "07"} title="참고 Use Case">
+              <ReportSection num={compact ? "05" : "08"} title="참고 Use Case">
                 <div className="space-y-2">
                   {relUC.map((uc) => (
                     <Link key={uc.id} href={`/ax-kt/detail/use-case/${uc.id}`} className="ax-kt-report__uc-row">
@@ -431,7 +481,7 @@ export default function ConsultantReport({
         <footer className="ax-kt-report__footer">
           <button
             type="button"
-            onClick={() => setShowForm(true)}
+            onClick={() => onRequestExpertConsult?.()}
             className="flex-1 rounded-xl py-2.5 text-[13px] font-bold text-white shadow-sm"
             style={{ background: G.accent }}
           >
@@ -456,8 +506,5 @@ export default function ConsultantReport({
           </p>
         </footer>
       </article>
-
-      {showForm ? <ExpertConsultForm onClose={() => setShowForm(false)} /> : null}
-    </>
   );
 }

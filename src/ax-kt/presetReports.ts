@@ -4,7 +4,7 @@ export type PresetAnswers = {
   size: string;
   maturity: string;
   needs: string[];
-  tech: string[];
+  horizon: string;
 };
 
 export const HOME_PROMPT_PRESETS: { prompt: string; answers: PresetAnswers }[] = [
@@ -15,7 +15,7 @@ export const HOME_PROMPT_PRESETS: { prompt: string; answers: PresetAnswers }[] =
       size: "large",
       maturity: "scaling",
       needs: ["cx", "speed"],
-      tech: ["llm", "cloud"],
+      horizon: "short",
     },
   },
   {
@@ -25,7 +25,7 @@ export const HOME_PROMPT_PRESETS: { prompt: string; answers: PresetAnswers }[] =
       size: "mid",
       maturity: "piloting",
       needs: ["quality", "speed"],
-      tech: ["vision", "mlops"],
+      horizon: "mid_term",
     },
   },
   {
@@ -35,7 +35,7 @@ export const HOME_PROMPT_PRESETS: { prompt: string; answers: PresetAnswers }[] =
       size: "enterprise",
       maturity: "exploring",
       needs: ["data", "cx"],
-      tech: ["llm", "security"],
+      horizon: "long",
     },
   },
   {
@@ -45,7 +45,17 @@ export const HOME_PROMPT_PRESETS: { prompt: string; answers: PresetAnswers }[] =
       size: "smb",
       maturity: "exploring",
       needs: ["data"],
-      tech: ["readiness", "llm"],
+      horizon: "quick_win",
+    },
+  },
+  {
+    prompt: "유통·물류 비용을 AI로 줄이고 매출을 늘리고 싶어",
+    answers: {
+      industry: "retail",
+      size: "large",
+      maturity: "scaling",
+      needs: ["cost", "data"],
+      horizon: "mid_term",
     },
   },
 ];

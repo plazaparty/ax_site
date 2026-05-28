@@ -7,10 +7,12 @@ import { Suspense, useState, useEffect, useRef } from "react";
 import KtLogo from "@/components/branding/KtLogo";
 import AdoptionPage from "./AdoptionPage";
 import ConsultantReport from "./components/ConsultantReport";
+import ExpertConsultForm from "./components/ExpertConsultForm";
 import { INDUSTRY_SLUG_LABELS } from "./consultantLinks";
 import { exploreDetailPath, getExploreList, useCaseDetailPath } from "./exploreContent";
 import { HOME_PROMPT_PRESETS } from "./presetReports";
 import {
+  CONSULTANT_FLOW_STEPS,
   G,
   monoBannerStyle,
   monoPanelStyle,
@@ -200,20 +202,65 @@ function HomePage({ setPage, onQuickReport }) {
             <h1
               style={{
                 fontWeight: 800,
-                fontSize: "clamp(1.25rem, 4.5vw, 1.75rem)",
+                fontSize: "clamp(1.15rem, 4.2vw, 1.65rem)",
                 letterSpacing: "-0.03em",
                 color: G.text,
-                lineHeight: 1.35,
-                marginBottom: 12,
+                lineHeight: 1.4,
+                marginBottom: 10,
               }}
             >
-              5개의 간단한 질문으로 3분 안에
-              <br />
-              <span style={{ color: G.accent }}>KT AX 추천</span>과 실행 로드맵을 받아보세요
+              우리 회사 매출을 <span style={{ color: G.accent }}>34%</span> 올릴 진짜 AX 솔루션은 무엇일까?
             </h1>
-            <p style={{ fontSize: 14, color: G.textSub, lineHeight: 1.65, marginBottom: 20 }}>
-              산업·규모·성숙도·니즈를 분석해 맞춤형 AX 솔루션과 실행 로드맵을 제안합니다
+            <p style={{ fontSize: 14, color: G.text, lineHeight: 1.65, marginBottom: 12, fontWeight: 500 }}>
+              간단한 질문으로 <strong style={{ color: G.accent }}>1분 안에</strong> AX 추천과 실행 로드맵을 받아보세요
             </p>
+            <p style={{ fontSize: 12, color: G.textSub, lineHeight: 1.6, marginBottom: 6 }}>
+              남들이 어디까지 왔는가보다 중요한 것은 &apos;우리 비즈니스의 실질적 성과&apos; 입니다.
+            </p>
+            <p style={{ fontSize: 12, color: G.textSub, lineHeight: 1.6, marginBottom: 16 }}>
+              5가지 질문으로 귀사의{" "}
+              <span style={{ fontWeight: 700, color: G.text }}>경영 과제 해결안</span>과 즉시 가동 가능한{" "}
+              <span style={{ fontWeight: 700, color: G.text }}>비용 절감 시뮬레이션</span>을 받아보세요
+            </p>
+            <div className="ax-kt-consultant-steps" style={{ display: "grid", gap: 6, marginBottom: 18 }}>
+              {CONSULTANT_FLOW_STEPS.map((s, i) => (
+                <div
+                  key={s.step}
+                  style={{
+                    textAlign: "center",
+                    padding: "8px 4px",
+                    borderRadius: 10,
+                    border: `1px solid ${G.border}`,
+                    background: G.surface,
+                    position: "relative",
+                  }}
+                >
+                  {i < CONSULTANT_FLOW_STEPS.length - 1 ? (
+                    <span
+                      aria-hidden
+                      style={{
+                        position: "absolute",
+                        right: -5,
+                        top: "50%",
+                        width: 6,
+                        height: 1,
+                        background: G.borderBright,
+                        transform: "translateY(-50%)",
+                        zIndex: 1,
+                      }}
+                    />
+                  ) : null}
+                  <span style={{ fontSize: 18, lineHeight: 1, display: "block" }}>{s.icon}</span>
+                  <p style={{ fontSize: 9, fontWeight: 700, color: G.accent, marginTop: 4, letterSpacing: "0.04em" }}>
+                    STEP {s.step}
+                  </p>
+                  <p style={{ fontSize: 10, fontWeight: 700, color: G.text, marginTop: 2, lineHeight: 1.25 }}>
+                    {s.title}
+                  </p>
+                  <p style={{ fontSize: 9, color: G.textDim, marginTop: 2 }}>{s.hint}</p>
+                </div>
+              ))}
+            </div>
             <button
               type="button"
               onClick={() => setPage("consultant")}
@@ -378,7 +425,7 @@ const UC_INDUSTRY_OPTIONS = ["전체", ...Object.values(INDUSTRY_SLUG_LABELS)];
 function ConsultantPage({ boot, onBootConsumed }) {
   const router = useRouter();
   const [messages, setMessages] = useState([]);
-  const [phase, setPhase]       = useState("root"); // root | recommend | adoption | usecase | done
+  const [phase, setPhase]       = useState("recommend"); // recommend | adoption | usecase | done
   const [answers, setAnswers]   = useState({});
   const [adoptionTab, setAdoptionTab] = useState(null);
   const [ucFilters, setUcFilters] = useState({ industry:"전체", task:"전체", stage:"전체", solution:"전체" });
@@ -386,7 +433,10 @@ function ConsultantPage({ boot, onBootConsumed }) {
   const [recStep, setRecStep] = useState(0);
   const [multiSel, setMultiSel] = useState([]);
   const bottomRef = useRef(null);
+  const reportAnchorRef = useRef(null);
+  const expertFormRef = useRef(null);
   const ddRef     = useRef(null);
+  const [showExpertForm, setShowExpertForm] = useState(false);
   const greetedRef = useRef(false);
   const bootAppliedRef = useRef(false);
 
@@ -424,7 +474,18 @@ function ConsultantPage({ boot, onBootConsumed }) {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior:"smooth" }); }, [messages]);
+  useEffect(() => {
+    if (showExpertForm) {
+      expertFormRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      return;
+    }
+    const last = messages[messages.length - 1];
+    if (last?.type === "cards" && last?.cards?.type === "report") {
+      reportAnchorRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages, showExpertForm]);
 
   useEffect(() => {
     if (boot) {
@@ -446,15 +507,20 @@ function ConsultantPage({ boot, onBootConsumed }) {
       return;
     }
     if (greetedRef.current) return;
-    let nextChoicesTimer;
+    let choicesTimer;
     const t = setTimeout(() => {
       greetedRef.current = true;
-      addAI("text", "안녕하세요! KT AX Consultant입니다. 무엇을 도와드릴까요?");
-      nextChoicesTimer = setTimeout(() => addAI("choices", "", ROOT_CHOICES), 400);
+      setPhase("recommend");
+      setRecStep(0);
+      addAI(
+        "text",
+        "안녕하세요! KT AX Consultant입니다. 5가지 질문으로 맞춤 AX 솔루션과 실행 로드맵을 제안해 드립니다. 먼저 산업 분야를 선택해 주세요."
+      );
+      choicesTimer = setTimeout(() => addAI("choices", "", mapStepChoices(recSteps[0])), 350);
     }, 300);
     return () => {
       clearTimeout(t);
-      if (nextChoicesTimer) clearTimeout(nextChoicesTimer);
+      if (choicesTimer) clearTimeout(choicesTimer);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- mount greeting only
   }, [boot]);
@@ -494,11 +560,11 @@ function ConsultantPage({ boot, onBootConsumed }) {
     {icon:"⚡",label:"속도 향상",value:"speed"},{icon:"⭐",label:"고객경험 혁신",value:"cx"},
     {icon:"📊",label:"데이터 활용",value:"data"},{icon:"☁️",label:"인프라 현대화",value:"infra"},
   ];
-  const TECH_CHOICES = [
-    {icon:"🧠",label:"거대언어모델 (LLM)",value:"llm"},{icon:"👁️",label:"컴퓨터 비전",value:"vision"},
-    {icon:"🔄",label:"MLOps 플랫폼",value:"mlops"},{icon:"☁️",label:"클라우드 전환",value:"cloud"},
-    {icon:"🗄️",label:"데이터 플랫폼",value:"data_platform"},{icon:"📡",label:"엣지 AI",value:"edge"},
-    {icon:"🔐",label:"AI 보안",value:"security"},{icon:"🎯",label:"AX 진단·전략",value:"readiness"},
+  const HORIZON_CHOICES = [
+    { icon: "⚡", label: "단기 (3개월 이내)", value: "short" },
+    { icon: "📅", label: "중기 (6개월~1년)", value: "mid_term" },
+    { icon: "🗓️", label: "장기 (1년 이상)", value: "long" },
+    { icon: "🚀", label: "즉각적인 퀵 윈 필요", value: "quick_win" },
   ];
 
   const recSteps = [
@@ -506,8 +572,29 @@ function ConsultantPage({ boot, onBootConsumed }) {
     { key:"size",     q:"조직 규모는 어느 정도인가요?",      choices:SIZE_CHOICES,     multi:false },
     { key:"maturity", q:"현재 AX 성숙도 단계를 선택해 주세요.", choices:MATURITY_CHOICES, multi:false },
     { key:"needs",    q:"가장 시급한 AX 니즈를 선택해 주세요. (복수 선택 가능)", choices:NEEDS_CHOICES, multi:true },
-    { key:"tech",     q:"관심 있는 AX 기술 영역을 선택해 주세요. (복수 선택 가능)", choices:TECH_CHOICES, multi:true },
+    {
+      key: "horizon",
+      q: "AI 도입을 통해 언제쯤 가시적인 경영 성과가 나타나기를 기대하시나요?",
+      choices: HORIZON_CHOICES,
+      multi: false,
+    },
   ];
+
+  function mapStepChoices(step) {
+    return step.choices.map((c) => ({ ...c, stepKey: step.key, multi: step.multi }));
+  }
+
+  function beginRecommendChat() {
+    setPhase("recommend");
+    setRecStep(0);
+    setMultiSel([]);
+    setAnswers({});
+    addAI(
+      "text",
+      "안녕하세요! KT AX Consultant입니다. 5가지 질문으로 맞춤 AX 솔루션과 실행 로드맵을 제안해 드립니다. 먼저 산업 분야를 선택해 주세요."
+    );
+    setTimeout(() => addAI("choices", "", mapStepChoices(recSteps[0])), 350);
+  }
 
   /* ── ROOT selection ── */
   function handleRoot(val) {
@@ -549,17 +636,11 @@ function ConsultantPage({ boot, onBootConsumed }) {
   }
 
   function restartChat() {
-    setPhase("root");
-    setAnswers({});
-    setRecStep(0);
-    setMultiSel([]);
     setAdoptionTab(null);
     setMessages([]);
+    setShowExpertForm(false);
     greetedRef.current = true;
-    setTimeout(() => {
-      addAI("text", "안녕하세요! KT AX Consultant입니다. 무엇을 도와드릴까요?");
-      setTimeout(() => addAI("choices", "", ROOT_CHOICES), 400);
-    }, 300);
+    setTimeout(() => beginRecommendChat(), 200);
   }
 
   function handleRecommend(val, label) {
@@ -574,7 +655,7 @@ function ConsultantPage({ boot, onBootConsumed }) {
         setMultiSel([]);
         setTimeout(() => {
           addAI("text", next.q);
-          setTimeout(() => addAI("choices", "", next.choices.map(c => ({ ...c, stepKey:next.key, multi:next.multi }))), 300);
+          setTimeout(() => addAI("choices", "", mapStepChoices(next)), 300);
         }, 300);
       } else {
         buildReport(newAnswers);
@@ -598,7 +679,7 @@ function ConsultantPage({ boot, onBootConsumed }) {
       setMultiSel([]);
       setTimeout(() => {
         addAI("text", next.q);
-        setTimeout(() => addAI("choices", "", next.choices.map(c=>({...c, stepKey:next.key, multi:next.multi}))), 300);
+        setTimeout(() => addAI("choices", "", mapStepChoices(next)), 300);
       }, 300);
     } else {
       buildReport(newAnswers);
@@ -815,8 +896,16 @@ function ConsultantPage({ boot, onBootConsumed }) {
       /* REPORT */
       if (d?.type === "report") {
         return (
-          <div key={idx} style={{ marginBottom: 20, paddingLeft: 46, animation: "msgIn 0.3s ease both", maxWidth: "100%" }}>
-            <ConsultantReport answers={d.answers} onRestart={restartChat} />
+          <div
+            key={idx}
+            ref={reportAnchorRef}
+            style={{ marginBottom: 20, paddingLeft: 46, animation: "msgIn 0.3s ease both", maxWidth: "100%" }}
+          >
+            <ConsultantReport
+              answers={d.answers}
+              onRestart={restartChat}
+              onRequestExpertConsult={() => setShowExpertForm(true)}
+            />
           </div>
         );
       }
@@ -844,11 +933,62 @@ function ConsultantPage({ boot, onBootConsumed }) {
         }}
       >
         {messages.map((msg, i) => renderMessage(msg, i))}
+        {showExpertForm ? (
+          <div ref={expertFormRef} style={{ paddingLeft: 46, marginBottom: 12 }}>
+            <ExpertConsultForm variant="inline" onClose={() => setShowExpertForm(false)} />
+          </div>
+        ) : null}
         <div ref={bottomRef} />
       </div>
-      <p style={{ fontSize: 12, color: G.textDim, textAlign: "center", paddingTop: 8 }}>
-        위 선택지를 눌러 상담을 이어가 주세요
-      </p>
+
+      <div
+        style={{
+          flexShrink: 0,
+          borderTop: `1px solid ${G.border}`,
+          paddingTop: 12,
+          marginTop: 4,
+        }}
+      >
+        {phase !== "done" && messages.length > 0 && !showExpertForm ? (
+          <p style={{ fontSize: 12, color: G.textDim, textAlign: "center", marginBottom: 10 }}>
+            위 선택지를 눌러 상담을 이어가 주세요
+          </p>
+        ) : null}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            borderRadius: 14,
+            border: `1px solid ${G.border}`,
+            background: G.surface,
+            padding: "10px 14px",
+            opacity: 0.92,
+          }}
+        >
+          <span style={{ fontSize: 16, color: G.textDim, flexShrink: 0 }} aria-hidden>
+            ✎
+          </span>
+          <input
+            type="text"
+            disabled
+            readOnly
+            value=""
+            className="ax-kt-chat-input-placeholder"
+            aria-disabled
+            placeholder="추후 로그인 기능 및 프롬프트 입력 기능이 추가됩니다"
+            style={{
+              flex: 1,
+              border: "none",
+              outline: "none",
+              background: "transparent",
+              fontSize: 13,
+              color: G.textDim,
+              cursor: "not-allowed",
+            }}
+          />
+        </div>
+      </div>
     </div>
   );
 }
